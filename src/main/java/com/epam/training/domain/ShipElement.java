@@ -42,4 +42,5 @@ public class ShipElement {
 	public String toString() {
 		return isInjured ? "x" : "o";
 	}
+
 }
