@@ -3,7 +3,6 @@ package com.epam.training.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Ship {
 
 	private ShipType shipType;
@@ -49,8 +48,7 @@ public class Ship {
 	}
 
 	//WHY IS IT NEED TO BE SWAP??
-	private boolean isTwoElementAreEquals(int positionX, int positionY,
-			ShipElement element) {
+	private boolean isTwoElementAreEquals(int positionX, int positionY, ShipElement element) {
 		return element.getRelativePositionX() == positionY && element.getRelativePositionY() == positionX;
 	}
 	
@@ -102,7 +100,7 @@ public class Ship {
 	
 			case TWO_ELEMENT:
 				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 1));
+				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
 				break;
 	
 			case THREE_ELEMENT:
@@ -113,15 +111,15 @@ public class Ship {
 	
 			case FOUR_ELEMENT:
 				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 1));
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 2));
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 3));
+				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
+				shipElements.add(new ShipElement(absolutePositionX + 2, absolutePositionY));
+				shipElements.add(new ShipElement(absolutePositionX + 3, absolutePositionY));
 				break;
 			case FOUR_ELEMENT_WITH_TOP:
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 1));
 				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
+				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 1));
 				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY + 1));
-				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY + 2));
+				shipElements.add(new ShipElement(absolutePositionX + 2, absolutePositionY + 1));
 				break;
 			}
 	}
