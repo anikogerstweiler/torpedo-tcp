@@ -1,6 +1,8 @@
 package com.epam.training.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -98,41 +100,11 @@ public class Board {
 		return lastElement.getRelativePositionY() < size && lastElement.getRelativePositionX() < size;
 	}
 	
-	public void shoot() {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				Ship s = getShipByPosition(i, j);
-				System.out.println("Shooting to position(" + i + "," + j + ")");
-				if (s != null) {
-					s.setInjured(i, j);
-					printShipsOnBoard();
-				} 
-			}
-		}
+	public int getSize() {
+		return size;
 	}
 
-	public void printShipsOnBoard() {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				Ship s = getShipByPosition(i, j);
-				if (s == null) {
-					System.out.print(new Water().toString());
-				} else {
-					s.printShip(j, i);
-				}
-			}
-			System.out.println("");
-		}
-		System.out.println("");
-	}
-	
-	private Ship getShipByPosition(int positionX, int positionY) {
-		Ship ship = null;
-		for (Ship s : ships) {
-			if (s.isShipElementAtPosition(positionX, positionY)) {
-				ship = s;
-			}
-		}
-		return ship;
+	public List<Ship> getShips() {
+		return Collections.unmodifiableList(ships);
 	}
 }

@@ -121,6 +121,9 @@ public class Ship {
 				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY + 1));
 				shipElements.add(new ShipElement(absolutePositionX + 2, absolutePositionY + 1));
 				break;
+			default:
+				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
+				break;
 			}
 	}
 	
@@ -141,14 +144,5 @@ public class Ship {
 	
 	public ShipElement getLastElement() {
 		return shipElements.get(shipElements.size() - 1);
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		for (ShipElement e : shipElements) {
-			builder.append("x: " + e.getRelativePositionX() + ", y: " + e.getRelativePositionY()).append("\n");
-		}
-		return builder.toString();
 	}
 }
