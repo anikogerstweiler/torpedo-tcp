@@ -5,6 +5,10 @@ public class ShipElement {
 	private int relativePositionX;
 
 	private int relativePositionY;
+	
+	private final String INTACT = "x";
+	
+	private final String INJURED = "o";
 
 	private boolean isInjured;
 
@@ -40,7 +44,7 @@ public class ShipElement {
 
 	@Override
 	public String toString() {
-		return isInjured ? "x" : "o";
+		return isInjured ? INTACT : INJURED;
 	}
 
 }
