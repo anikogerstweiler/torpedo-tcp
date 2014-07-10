@@ -24,7 +24,7 @@ public class Ship {
 	public void setInjured(int positionX, int positionY) {
 		getElementByPosition(positionX, positionY).setInjured(true);
 	}
-	
+
 	private ShipElement getElementByPosition(int positionX, int positionY) {
 		ShipElement element = null;
 		for (ShipElement e : shipElements) {
@@ -43,15 +43,14 @@ public class Ship {
 			isElementAtPosition = isTwoElementAreEquals(positionX, positionY, element);
 			index++;
 		}
-		
+
 		return isElementAtPosition;
 	}
 
-	//WHY IS IT NEED TO BE SWAP??
 	private boolean isTwoElementAreEquals(int positionX, int positionY, ShipElement element) {
-		return element.getRelativePositionX() == positionY && element.getRelativePositionY() == positionX;
+		return element.getRelativePositionX() == positionX && element.getRelativePositionY() == positionY;
 	}
-	
+
 	public int getAbsolutePositionX() {
 		return absolutePositionX;
 	}
@@ -67,18 +66,18 @@ public class Ship {
 	public void setAbsolutePositionY(int absolutePositionY) {
 		this.absolutePositionY = absolutePositionY;
 	}
-	
+
 	public boolean isOverLap(Ship ship) {
 		boolean isOverLap = false;
-			
+
 		for (int i = 0; i < ship.shipElements.size() && !isOverLap; i++) {
 			for (int j = 0; j < shipElements.size() && !isOverLap; j++) {
 				ShipElement first = ship.shipElements.get(i);
 				ShipElement second = shipElements.get(j);
-				
+
 				isOverLap = (isTheSameAtPositionX(first, second)
 						&& isTheSameAtPositionY(first, second));
-			}		
+			}
 		}
 
 		return isOverLap;
@@ -93,40 +92,9 @@ public class Ship {
 	}
 
 	private void createShipByType(ShipType shipType) {
-		switch (shipType) {
-			case ONE_ELEMENT:
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				break;
-	
-			case TWO_ELEMENT:
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
-				break;
-	
-			case THREE_ELEMENT:
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX + 2, absolutePositionY));
-				break;
-	
-			case FOUR_ELEMENT:
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX + 2, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX + 3, absolutePositionY));
-				break;
-			case FOUR_ELEMENT_WITH_TOP:
-				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY));
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY + 1));
-				shipElements.add(new ShipElement(absolutePositionX + 1, absolutePositionY + 1));
-				shipElements.add(new ShipElement(absolutePositionX + 2, absolutePositionY + 1));
-				break;
-			default:
-				shipElements.add(new ShipElement(absolutePositionX, absolutePositionY));
-				break;
-			}
+		shipElements.addAll(shipType.createShip(absolutePositionX, absolutePositionY));
 	}
-	
+
 	public List<ShipElement> getShipElements() {
 		return shipElements;
 	}
@@ -134,14 +102,14 @@ public class Ship {
 	public void printShip(int positionX, int positionY) {
 		int index = 0;
 		while (index < shipElements.size()) {
-			ShipElement actual = shipElements.get(index); 
-			if (isTwoElementAreEquals(positionY, positionX, actual)) {
+			ShipElement actual = shipElements.get(index);
+			if (isTwoElementAreEquals(positionX, positionY, actual)) {
 				System.out.print(actual.toString());
 			}
 			index++;
 		}
 	}
-	
+
 	public ShipElement getLastElement() {
 		return shipElements.get(shipElements.size() - 1);
 	}

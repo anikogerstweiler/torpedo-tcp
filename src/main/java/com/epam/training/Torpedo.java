@@ -6,14 +6,14 @@ import com.epam.training.domain.ShipType;
 
 public class Torpedo {
 	public static void main(String[] args) {
-		Board board = new Board(29);
-		
+		Board board = new Board(30);
+
 		initShips(board);
-		
+
 		Engine engine = new Engine(board);
-		
+
 		engine.printShipsOnBoard();
-		
+
 		engine.shoot();
 	}
 
