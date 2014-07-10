@@ -54,15 +54,15 @@ public class Ship {
 
 	public boolean isOverLap(Ship ship) {
 		boolean isOverLap = false;
-		int i = 0;
-		int j = 0;
-		while (!isOverLap && (i < ship.shipElements.size() || j < shipElements.size())) {
-			ShipElement first = ship.shipElements.get(i);
-			ShipElement second = shipElements.get(j);
-			isOverLap = (first.getRelativePositionX() == second.getRelativePositionX()
-					&& first.getRelativePositionY() == second.getRelativePositionY());
-			i++;
-			j++;
+			
+		for (int i = 0; i < ship.shipElements.size() && !isOverLap; i++) {
+			for (int j = 0; j < shipElements.size() && !isOverLap; j++) {
+				ShipElement first = ship.shipElements.get(i);
+				ShipElement second = shipElements.get(j);
+				
+				isOverLap = (first.getRelativePositionX() == second.getRelativePositionX()
+						&& first.getRelativePositionY() == second.getRelativePositionY());
+			}		
 		}
 
 		return isOverLap;

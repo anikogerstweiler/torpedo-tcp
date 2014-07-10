@@ -8,9 +8,9 @@ public class Torpedo {
 	public static void main(String[] args) {
 		Board board = new Board();
 
-		//board.createShips(ShipType.ONE_ELEMENT, 2);
+		board.createShips(ShipType.ONE_ELEMENT, 2);
 
-		//board.printShips();
+		board.printShips();
 
 		Ship ship = new Ship(ShipType.ONE_ELEMENT, 0, 0);
 
