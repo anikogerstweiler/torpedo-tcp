@@ -13,6 +13,10 @@ public class Ship {
 
 	private List<ShipElement> shipElements;
 
+	public Ship(List<ShipElement> shipElements) {
+		this.shipElements = shipElements;
+	}
+
 	public Ship(ShipType shipType, int absolutePositionX, int absolutePositionY) {
 		this.shipType = shipType;
 		this.absolutePositionX = absolutePositionX;

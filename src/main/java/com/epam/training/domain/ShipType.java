@@ -1,5 +1,6 @@
 package com.epam.training.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShipType {
@@ -11,6 +12,20 @@ public class ShipType {
 	public ShipType(List<ShipElement> elements, int piece) {
 		this.shipElements = elements;
 		this.piece = piece;
+	}
+
+	public Ship createShip(int positionX, int posiotionY) {
+		List<ShipElement> shiftedElements = new ArrayList<>();
+		for (ShipElement element : shipElements) {
+			shiftedElements.add(
+					new ShipElement(element.getRelativePositionX() + positionX,
+							element.getRelativePositionY() + posiotionY));
+		}
+		return new Ship(shiftedElements);
+	}
+
+	public int getPiece() {
+		return piece;
 	}
 
 	@Override
@@ -41,4 +56,5 @@ public class ShipType {
 			return false;
 		return true;
 	}
+
 }

@@ -7,18 +7,22 @@ import java.util.Random;
 
 public class Board {
 
-	private final int size;
+	private int width;
+
+	private int height;
 
 	private final List<Ship> ships;
 
 	private final Random random = new Random();
 
-	public Board(final int size) {
-		this.size = size;
+	public Board(final int width, final int height) {
+		this.width = width;
+		this.height = height;
 		ships = new ArrayList<>();
 	}
 
-	public void createShips(ShipType shipType, int piece) {
+	public void createShips(ShipType shipType) {
+		int piece = shipType.getPiece();
 		for (int i = 0; i < piece; i++) {
 			placeShip(shipType);
 		}
@@ -34,9 +38,9 @@ public class Board {
 				throw new IllegalStateException("Ship placement failed!");
 			}
 
-			int positionX = random.nextInt(size);
-			int positionY = random.nextInt(size);
-			ship = createShip(shipType, positionX, positionY);
+			int positionX = random.nextInt(width);
+			int positionY = random.nextInt(height);
+			ship = shipType.createShip(positionX, positionY);
 
 			isPlacedOnBoard = isOnBoard(ship);
 
@@ -58,22 +62,22 @@ public class Board {
 		return false;
 	}
 
-	private Ship createShip(ShipType shipType, int positionX, int positionY) {
-		return new Ship(shipType, positionX, positionY);
-	}
-
 	private boolean isOnBoard(Ship ship) {
 		ShipElement lastElement = ship.getLastElement();
-		boolean isHorizontalGood = 0 <= lastElement.getRelativePositionX() && lastElement.getRelativePositionX() < size;
-		boolean isVerticalGood = 0 <= lastElement.getRelativePositionY() && lastElement.getRelativePositionY() < size;
+		boolean isHorizontalGood = 0 <= lastElement.getRelativePositionX() && lastElement.getRelativePositionX() < width;
+		boolean isVerticalGood = 0 <= lastElement.getRelativePositionY() && lastElement.getRelativePositionY() < width;
 		return isHorizontalGood && isVerticalGood;
-	}
-
-	public int getSize() {
-		return size;
 	}
 
 	public List<Ship> getShips() {
 		return Collections.unmodifiableList(ships);
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
 	}
 }

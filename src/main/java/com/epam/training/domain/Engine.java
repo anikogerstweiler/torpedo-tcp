@@ -10,9 +10,10 @@ public class Engine {
 	}
 
 	public void shoot() {
-		int size = board.getSize();
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		int width = board.getWidth();
+		int height = board.getHeight();
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
 				shootAt(j, i);
 			}
 		}
@@ -29,9 +30,10 @@ public class Engine {
 	}
 
 	public void printShipsOnBoard() {
-		int size = board.getSize();
-		for (int i = 0; i < size ; i++) {
-			for (int j = 0; j < size; j++) {
+		int width = board.getWidth();
+		int height = board.getHeight();
+		for (int i = 0; i < height ; i++) {
+			for (int j = 0; j < width; j++) {
 				Ship s = getShipByPosition(j, i);
 				if (s == null) {
 					System.out.print(new Water().toString());

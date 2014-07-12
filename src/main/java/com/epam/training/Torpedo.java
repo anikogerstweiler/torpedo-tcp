@@ -2,29 +2,30 @@ package com.epam.training;
 
 import com.epam.training.domain.Board;
 import com.epam.training.domain.Engine;
-import com.epam.training.domain.ShipTypeReader;
 import com.epam.training.domain.ShipType;
+import com.epam.training.domain.ShipTypeReader;
 
 public class Torpedo {
 
 	private static int[][] shipShape;
 
 	public static void main(String[] args) {
-		Board board = new Board(30);
+		Board board = new Board(30, 30);
 
-		ShipTypeReader shipTypeReader = new ShipTypeReader("ships.txt");
+		try(ShipTypeReader shipTypeReader = new ShipTypeReader("ships.txt")) {
+			while (shipTypeReader.hasNext()) {
+				ShipType shipType = shipTypeReader.readShipType();
+				board.createShips(shipType);
+			}
 
-		while (shipTypeReader.hasNext()) {
-			ShipType shipType = shipTypeReader.readShipType();
+			Engine engine = new Engine(board);
+
+			engine.printShipsOnBoard();
+
+			engine.shoot();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
-
-//		initShips(board);
-
-		Engine engine = new Engine(board);
-
-		engine.printShipsOnBoard();
-
-		engine.shoot();
 	}
 
 	/*private static void initShips(Board board) {
