@@ -2,6 +2,8 @@ package com.epam.training;
 
 import com.epam.training.domain.Board;
 import com.epam.training.domain.Engine;
+import com.epam.training.domain.ShipTypeReader;
+import com.epam.training.domain.ShipType;
 
 public class Torpedo {
 
@@ -9,6 +11,12 @@ public class Torpedo {
 
 	public static void main(String[] args) {
 		Board board = new Board(30);
+
+		ShipTypeReader shipTypeReader = new ShipTypeReader("ships.txt");
+
+		while (shipTypeReader.hasNext()) {
+			ShipType shipType = shipTypeReader.readShipType();
+		}
 
 //		initShips(board);
 

@@ -4,15 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class ShipFactory implements AutoCloseable {
+public class ShipTypeReader implements AutoCloseable {
 
 	private Scanner scanner;
 
-	public ShipFactory(String fileName) {
+	public ShipTypeReader(String fileName) {
 		scanner = new Scanner(ClassLoader.getSystemResourceAsStream(fileName));
 	}
 
-	public List<ShipElement> createShipType() {
+	public boolean hasNext() {
+		return scanner.hasNext("[\\.x]+");
+	}
+
+	public ShipType readShipType() {
 		char inputChar;
 		String line = null;
 		List<ShipElement> shipElements = new ArrayList<>();
@@ -27,7 +31,10 @@ public class ShipFactory implements AutoCloseable {
 				}
 			}
 		}
-		return shipElements;
+
+		int shipCount = scanner.nextInt();
+
+		return new ShipType(shipElements, shipCount);
 	}
 
 	@Override
