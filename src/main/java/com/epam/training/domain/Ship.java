@@ -18,7 +18,7 @@ public class Ship {
 		this.absolutePositionX = absolutePositionX;
 		this.absolutePositionY = absolutePositionY;
 		shipElements = new ArrayList<>();
-		createShipByType(shipType);
+		//createShipByType(shipType);
 	}
 
 	public void setInjured(int positionX, int positionY) {
@@ -91,9 +91,9 @@ public class Ship {
 		return first.getRelativePositionX() == second.getRelativePositionX();
 	}
 
-	private void createShipByType(ShipType shipType) {
+	/*private void createShipByType(ShipType shipType) {
 		shipElements.addAll(shipType.createShip(absolutePositionX, absolutePositionY));
-	}
+	}*/
 
 	public List<ShipElement> getShipElements() {
 		return shipElements;
