@@ -7,10 +7,9 @@ import com.epam.training.domain.ShipTypeReader;
 
 public class Torpedo {
 
-	private static int[][] shipShape;
-
 	public static void main(String[] args) {
 		Board board = new Board(30, 30);
+		Engine engine = new Engine(board);
 
 		try(ShipTypeReader shipTypeReader = new ShipTypeReader("ships.txt")) {
 			while (shipTypeReader.hasNext()) {
@@ -18,21 +17,10 @@ public class Torpedo {
 				board.createShips(shipType);
 			}
 
-			Engine engine = new Engine(board);
-
 			engine.printShipsOnBoard();
 
 			engine.shoot();
 		} catch (Exception e) {
-			// TODO: handle exception
 		}
 	}
-
-	/*private static void initShips(Board board) {
-		board.createShips(ShipType.ONE_ELEMENT, 4);
-		board.createShips(ShipType.TWO_ELEMENT, 4);
-		board.createShips(ShipType.THREE_ELEMENT, 4);
-		board.createShips(ShipType.FOUR_ELEMENT, 4);
-		board.createShips(ShipType.FOUR_ELEMENT_WITH_TOP, 3);
-	}*/
 }

@@ -3,9 +3,11 @@ package com.epam.training.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ShipTypeReader implements AutoCloseable {
 
+	private static final Pattern LINE_PATTERN = Pattern.compile("[\\.x]{4}");
 	private Scanner scanner;
 
 	public ShipTypeReader(String fileName) {
@@ -13,7 +15,7 @@ public class ShipTypeReader implements AutoCloseable {
 	}
 
 	public boolean hasNext() {
-		return scanner.hasNext("[\\.x]+");
+		return scanner.hasNext(LINE_PATTERN);
 	}
 
 	public ShipType readShipType() {
@@ -22,7 +24,7 @@ public class ShipTypeReader implements AutoCloseable {
 		List<ShipElement> shipElements = new ArrayList<>();
 
 		for (int row = 0; row < 4; row++) {
-			line = scanner.nextLine();
+			line = scanner.next(LINE_PATTERN);
 			for (int column = 0; column < 4; column++) {
 				inputChar = line.charAt(column);
 				if (inputChar == 'x') {
@@ -33,6 +35,8 @@ public class ShipTypeReader implements AutoCloseable {
 		}
 
 		int shipCount = scanner.nextInt();
+//		line = scanner.nextLine();
+//		int shipCount = Integer.parseInt(line.charAt(0) + "");
 
 		return new ShipType(shipElements, shipCount);
 	}

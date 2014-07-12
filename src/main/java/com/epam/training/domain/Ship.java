@@ -22,7 +22,6 @@ public class Ship {
 		this.absolutePositionX = absolutePositionX;
 		this.absolutePositionY = absolutePositionY;
 		shipElements = new ArrayList<>();
-		//createShipByType(shipType);
 	}
 
 	public void setInjured(int positionX, int positionY) {
@@ -94,10 +93,6 @@ public class Ship {
 	private boolean isTheSameAtPositionX(ShipElement first, ShipElement second) {
 		return first.getRelativePositionX() == second.getRelativePositionX();
 	}
-
-	/*private void createShipByType(ShipType shipType) {
-		shipElements.addAll(shipType.createShip(absolutePositionX, absolutePositionY));
-	}*/
 
 	public List<ShipElement> getShipElements() {
 		return shipElements;
