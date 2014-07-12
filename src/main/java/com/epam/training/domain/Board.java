@@ -42,7 +42,7 @@ public class Board {
 			int positionY = random.nextInt(height);
 			ship = shipType.createShip(positionX, positionY);
 
-			isPlacedOnBoard = isOnBoard(ship);
+			isPlacedOnBoard = ship.isInArea(width, height);
 
 			if (isPlacedOnBoard) {
 				isPlacedOnBoard = !isShipAtTheSamePosition(ship);
@@ -60,13 +60,6 @@ public class Board {
 		}
 
 		return false;
-	}
-
-	private boolean isOnBoard(Ship ship) {
-		ShipElement lastElement = ship.getLastElement();
-		boolean isHorizontalGood = 0 <= lastElement.getRelativePositionX() && lastElement.getRelativePositionX() < width;
-		boolean isVerticalGood = 0 <= lastElement.getRelativePositionY() && lastElement.getRelativePositionY() < width;
-		return isHorizontalGood && isVerticalGood;
 	}
 
 	public List<Ship> getShips() {

@@ -1,11 +1,8 @@
 package com.epam.training.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Ship {
-
-	private ShipType shipType;
 
 	private int absolutePositionX;
 
@@ -17,11 +14,13 @@ public class Ship {
 		this.shipElements = shipElements;
 	}
 
-	public Ship(ShipType shipType, int absolutePositionX, int absolutePositionY) {
-		this.shipType = shipType;
-		this.absolutePositionX = absolutePositionX;
-		this.absolutePositionY = absolutePositionY;
-		shipElements = new ArrayList<>();
+	public boolean isInArea(int width, int height) {
+		boolean isInArea = true;
+		for (ShipElement element : shipElements) {
+			isInArea = element.getRelativePositionX() < width && element.getRelativePositionY() < height;
+		}
+
+		return isInArea;
 	}
 
 	public void setInjured(int positionX, int positionY) {
@@ -58,16 +57,8 @@ public class Ship {
 		return absolutePositionX;
 	}
 
-	public void setAbsolutePositionX(int absolutePositionX) {
-		this.absolutePositionX = absolutePositionX;
-	}
-
 	public int getAbsolutePositionY() {
 		return absolutePositionY;
-	}
-
-	public void setAbsolutePositionY(int absolutePositionY) {
-		this.absolutePositionY = absolutePositionY;
 	}
 
 	public boolean isOverLap(Ship ship) {
@@ -75,27 +66,23 @@ public class Ship {
 
 		for (int i = 0; i < ship.shipElements.size() && !isOverLap; i++) {
 			for (int j = 0; j < shipElements.size() && !isOverLap; j++) {
-				ShipElement first = ship.shipElements.get(i);
-				ShipElement second = shipElements.get(j);
+				ShipElement firstElement = ship.shipElements.get(i);
+				ShipElement secondElement = shipElements.get(j);
 
-				isOverLap = (isTheSameAtPositionX(first, second)
-						&& isTheSameAtPositionY(first, second));
+				isOverLap = (isTheSameByPositionX(firstElement, secondElement)
+						&& isTheSameByPositionY(firstElement, secondElement));
 			}
 		}
 
 		return isOverLap;
 	}
 
-	private boolean isTheSameAtPositionY(ShipElement first, ShipElement second) {
-		return first.getRelativePositionY() == second.getRelativePositionY();
+	private boolean isTheSameByPositionY(ShipElement firstElement, ShipElement secondElement) {
+		return firstElement.getRelativePositionY() == secondElement.getRelativePositionY();
 	}
 
-	private boolean isTheSameAtPositionX(ShipElement first, ShipElement second) {
-		return first.getRelativePositionX() == second.getRelativePositionX();
-	}
-
-	public List<ShipElement> getShipElements() {
-		return shipElements;
+	private boolean isTheSameByPositionX(ShipElement firstElement, ShipElement secondElement) {
+		return firstElement.getRelativePositionX() == secondElement.getRelativePositionX();
 	}
 
 	public void printShip(int positionX, int positionY) {
@@ -107,9 +94,5 @@ public class Ship {
 			}
 			index++;
 		}
-	}
-
-	public ShipElement getLastElement() {
-		return shipElements.get(shipElements.size() - 1);
 	}
 }

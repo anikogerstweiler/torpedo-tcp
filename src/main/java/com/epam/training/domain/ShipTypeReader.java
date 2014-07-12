@@ -35,8 +35,6 @@ public class ShipTypeReader implements AutoCloseable {
 		}
 
 		int shipCount = scanner.nextInt();
-//		line = scanner.nextLine();
-//		int shipCount = Integer.parseInt(line.charAt(0) + "");
 
 		return new ShipType(shipElements, shipCount);
 	}
