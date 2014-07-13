@@ -23,7 +23,8 @@ public class Torpedo {
 				board.createShips(shipType);
 			}
 
-			engine.printShipsOnBoard();
+			//engine.printShips();
+			board.printShips();
 
 			engine.shoot();
 		} catch (Exception e) {

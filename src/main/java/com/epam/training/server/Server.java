@@ -35,7 +35,7 @@ public class Server {
                     	ch.pipeline().addLast(new LoggingHandler(LogLevel.TRACE))
                     			.addLast(new LineBasedFrameDecoder(1024))
                     			.addLast(new MessageCodec())
-                    			.addLast(new GreetHandler());
+                    			.addLast(new MessageHandler());
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG, 128)

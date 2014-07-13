@@ -18,6 +18,7 @@ import com.epam.training.message.Won;
 
 public class MessageCodec extends ByteToMessageCodec<Message> {
 
+	private static final String CHARSET = "UTF8";
 	static final String WON = "WON";
 	static final String LOST = "LOST";
 	static final String MISS = "MISS";
@@ -28,27 +29,25 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
 
 	@Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
-        out.writeBytes(msg.toString().getBytes("UTF8"));
+        out.writeBytes(msg.toString().getBytes(CHARSET));
+        out.writeChar('\n');
     }
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
     	int size = in.readableBytes();
         byte[] msg = new byte[size];
+
         in.readBytes(msg);
-        String input = new String(msg,"UTF8");
+        String input = new String(msg,CHARSET);
+
         int delimiter = input.indexOf(" ");
-        String command;
-        if (delimiter == -1) {
-        	command = input;
-        } else {
-        	command = input.substring(0, delimiter);
-        }
+        String command = getCommand(input, delimiter);
+
         Message message = null;
         switch (command) {
 			case SIZE:
-				String parameters = input.substring(delimiter + 1);
-				message = new Size(parameters);
+				message = new Size(input.substring(delimiter + 1));
 				break;
 			case FIRE:
 				message = new Fire(input.substring(delimiter + 1));
@@ -74,4 +73,14 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
 		}
         out.add(message);
     }
+
+	private String getCommand(String input, int delimiter) {
+		String command;
+		if (delimiter == -1) {
+        	command = input;
+        } else {
+        	command = input.substring(0, delimiter);
+        }
+		return command;
+	}
 }

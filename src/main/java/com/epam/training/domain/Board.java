@@ -62,6 +62,31 @@ public class Board {
 		return false;
 	}
 
+	public void printShips() {
+		for (int i = 0; i < height ; i++) {
+			for (int j = 0; j < width; j++) {
+				Ship s = getShipByPosition(j, i);
+				if (s == null) {
+					System.out.print(new Water().toString());
+				} else {
+					s.printShip(j, i);
+				}
+			}
+			System.out.println("");
+		}
+		System.out.println("");
+	}
+
+	public Ship getShipByPosition(int positionX, int positionY) {
+		Ship ship = null;
+		for (Ship s : ships) {
+			if (s.isShipElementAtPosition(positionX, positionY)) {
+				ship = s;
+			}
+		}
+		return ship;
+	}
+
 	public List<Ship> getShips() {
 		return Collections.unmodifiableList(ships);
 	}
