@@ -17,6 +17,15 @@ import com.epam.training.message.Sunk;
 import com.epam.training.message.Won;
 
 public class MessageCodec extends ByteToMessageCodec<Message> {
+
+	static final String WON = "WON";
+	static final String LOST = "LOST";
+	static final String MISS = "MISS";
+	static final String SUNK = "SUNK";
+	static final String HIT = "HIT";
+	static final String FIRE = "FIRE";
+	static final String SIZE = "SIZE";
+
 	@Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
         out.writeBytes(msg.toString().getBytes("UTF8"));
@@ -27,9 +36,8 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
     	int size = in.readableBytes();
         byte[] msg = new byte[size];
         in.readBytes(msg);
-        String input = new String(msg);
+        String input = new String(msg,"UTF8");
         int delimiter = input.indexOf(" ");
-        System.out.println(delimiter);
         String command;
         if (delimiter == -1) {
         	command = input;
@@ -38,31 +46,32 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         }
         Message message = null;
         switch (command) {
-			case "SIZE":
-				message = new Size(input.substring(delimiter + 1, size));
+			case SIZE:
+				String parameters = input.substring(delimiter + 1);
+				message = new Size(parameters);
 				break;
-			case "FIRE":
-				message = new Fire(input.substring(delimiter + 1, size));
+			case FIRE:
+				message = new Fire(input.substring(delimiter + 1));
 				break;
-			case "HIT":
+			case HIT:
 				message = new Hit();
 				break;
-			case "SUNK":
+			case SUNK:
 				message = new Sunk();
 				break;
-			case "MISS":
+			case MISS:
 				message = new Miss();
 				break;
-			case "LOST":
+			case LOST:
 				message = new Lost();
 				break;
-			case "WON":
+			case WON:
 				message = new Won();
 				break;
 			default:
 				message = new Error(input.substring(delimiter + 1, size));
 				break;
 		}
-        out.add(message.toString());
+        out.add(message);
     }
 }
