@@ -45,7 +45,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         Message s = (Message) msg;
         System.out.println(s);
-        ctx.write(s);
-        ctx.flush();
+        //ctx.write(s);
+        //ctx.flush();
     }
 }
