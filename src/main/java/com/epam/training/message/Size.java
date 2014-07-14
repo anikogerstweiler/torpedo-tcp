@@ -8,8 +8,8 @@ public class Size implements Message {
 
 	public Size(String input) {
 		String[] splitted = input.split(" ");
-		this.width = Integer.parseInt(splitted[0]);
-		this.height = Integer.parseInt(splitted[1]);
+		this.width = Integer.parseInt(splitted[0].trim());
+		this.height = Integer.parseInt(splitted[1].trim());
 	}
 
 	public Size(int boardWidth, int boardHeight) {

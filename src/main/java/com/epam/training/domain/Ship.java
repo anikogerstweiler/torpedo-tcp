@@ -37,7 +37,6 @@ public class Ship {
 		ShipElement element = null;
 		for (ShipElement e : shipElements) {
 			if (e.getRelativePositionX() == positionX & e.getRelativePositionY() == positionY) {
-				//element = e;
 				return e;
 			}
 		}

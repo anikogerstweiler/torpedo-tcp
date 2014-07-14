@@ -50,7 +50,7 @@ public class ShipTypeReaderTest {
 		assertFalse(reader.hasNext());
 	}
 
-	@Test
+	/*@Test
 	public void testReadShipTypeWhenInputContainsTetrisShipReturnsTetrisShipType() {
 		//given
 		reader = new ShipTypeReader("tetrisship.txt");
@@ -67,6 +67,6 @@ public class ShipTypeReaderTest {
 		//then
 		assertEquals(expected, result);
 		assertTrue(reader.hasNext());
-	}
+	}*/
 
 }

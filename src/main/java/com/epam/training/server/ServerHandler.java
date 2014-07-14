@@ -8,9 +8,9 @@ import com.epam.training.message.Size;
 
 public class ServerHandler extends MessageHandler {
 
-	private static final int BOARD_HEIGHT = 2;
+	private static final int BOARD_HEIGHT = 30;
 
-	private static final int BOARD_WIDTH = 2;
+	private static final int BOARD_WIDTH = 30;
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {

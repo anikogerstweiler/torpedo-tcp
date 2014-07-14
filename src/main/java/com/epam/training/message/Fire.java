@@ -8,8 +8,8 @@ public class Fire implements Message {
 
 	public Fire(String input) {
 		String[] splitted = input.split(" ");
-		this.coordinateX = Integer.parseInt(splitted[0]);
-		this.coordinateY = Integer.parseInt(splitted[1]);
+		this.coordinateX = Integer.parseInt(splitted[0].trim());
+		this.coordinateY = Integer.parseInt(splitted[1].trim());
 	}
 
 	public Fire(int coordinateX, int coordinateY) {

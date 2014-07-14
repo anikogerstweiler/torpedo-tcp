@@ -36,7 +36,7 @@ public class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                    	ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG))
+                    	ch.pipeline().addLast(new LoggingHandler(LogLevel.TRACE))
                     			.addLast(new LineBasedFrameDecoder(1024))
                     			.addLast(new MessageCodec())
                     			.addLast(new MessageValidator())
@@ -45,6 +45,7 @@ public class Server {
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG, 128)
+                .option(ChannelOption.TCP_NODELAY, true)
                 .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             // Bind and start to accept incoming connections.

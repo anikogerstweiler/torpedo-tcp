@@ -47,10 +47,10 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         Message message = null;
         switch (command) {
 			case SIZE:
-				message = new Size(input.substring(delimiter + 1, input.length()));
+				message = new Size((input.substring(delimiter + 1, input.length()).trim()));
 				break;
 			case FIRE:
-				message = new Fire(input.substring(delimiter + 1, input.length()));
+				message = new Fire((input.substring(delimiter + 1, input.length())).trim());
 				break;
 			case HIT:
 				message = new Hit();

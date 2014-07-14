@@ -7,19 +7,19 @@ public class Engine {
 
 	private final int width;
 	private final int height;
-	private int shipElementCount;
+	private int shipECount;
 
 	private int nextShootX;
 	private int nextShootY;
-
+	
 	public Engine(int width, int height, int shipCount) {
 		this.width = width;
 		this.height = height;
-		this.shipElementCount = shipCount;
+		this.shipECount = shipCount;
 	}
 
 	public Fire shoot() {
-		Fire fire = new Fire(nextShootX, nextShootY);
+		Fire fire = new Fire(nextShootY, nextShootX);
 
 		if (nextShootX < width - 1) {
 			nextShootX++;
@@ -32,11 +32,11 @@ public class Engine {
 	}
 
 	public void process(FireAnswer msg) {
-		shipElementCount -= msg.demage();
+		shipECount -= msg.demage();
 	}
 
 	public boolean isWon() {
-		return shipElementCount == 0;
+		return shipECount == 0;
 	}
 
 }

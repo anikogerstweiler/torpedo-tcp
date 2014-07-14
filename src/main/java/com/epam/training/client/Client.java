@@ -36,10 +36,11 @@ public class Client {
             b.group(workerGroup);
             b.channel(NioSocketChannel.class);
             b.option(ChannelOption.SO_KEEPALIVE, true);
+            b.option(ChannelOption.TCP_NODELAY, true);
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                	ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG))
+                	ch.pipeline().addLast(new LoggingHandler(LogLevel.TRACE))
         			.addLast(new LineBasedFrameDecoder(1024))
         			.addLast(new MessageCodec())
         			.addLast(new ClientValidator())

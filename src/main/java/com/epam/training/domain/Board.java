@@ -33,9 +33,10 @@ public class Board {
 		int piece = shipType.getPiece();
 		for (int i = 0; i < piece; i++) {
 			placeShip(shipType);
+			//piece??
 			shipElementCount += shipType.countShipElements();
 		}
-	}
+	} 
 
 	private void placeShip(ShipType shipType) {
 		boolean isPlacedOnBoard = false;
@@ -51,7 +52,8 @@ public class Board {
 			int positionY = random.nextInt(height);
 			ship = shipType.createShip(positionX, positionY);
 
-			isPlacedOnBoard = ship.isInArea(width, height);
+			//mod
+			isPlacedOnBoard = ship.isInArea(height, width);
 
 			if (isPlacedOnBoard) {
 				isPlacedOnBoard = !isShipAtTheSamePosition(ship);
@@ -95,7 +97,7 @@ public class Board {
 	public boolean isLost() {
 		return shipElementCount == 0;
 	}
-
+	
 	public void printShips() {
 		for (int i = 0; i < height ; i++) {
 			for (int j = 0; j < width; j++) {
@@ -136,10 +138,6 @@ public class Board {
 	}
 
 	public int getShipCount() {
-		return ships.size();
-	}
-
-	public void setShipCount(int shipCount) {
-		this.shipElementCount = shipCount;
+		return shipElementCount;
 	}
 }

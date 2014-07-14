@@ -137,6 +137,19 @@ public class ShipTest {
 
 		assertTrue(ship.isSunk());
 	}
+	
+	@Test
+	public void testIsSunkWhenInputIsThreeLengthAndNotTotallyInjuredReturnsFalse() {
+		ShipElement element1 = new ShipElement(0, 0);
+		ShipElement element2 = new ShipElement(1, 0);
+		ShipElement element3 = new ShipElement(2, 0);
+		Ship ship = new Ship(Arrays.asList(element1, element2, element3));
+
+		ship.setInjured(0, 0);
+		ship.setInjured(1, 0);
+
+		assertFalse(ship.isSunk());
+	}
 
 	private ShipElement mockShipElement(int x, int y) {
 		ShipElement shipElement = Mockito.mock(ShipElement.class);
