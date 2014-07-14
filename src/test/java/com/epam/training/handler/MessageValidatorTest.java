@@ -11,6 +11,7 @@ import com.epam.training.handler.MessageValidator;
 import com.epam.training.message.Fire;
 import com.epam.training.message.Hit;
 import com.epam.training.message.Lost;
+import com.epam.training.message.Miss;
 import com.epam.training.message.Size;
 import com.epam.training.message.Sunk;
 import com.epam.training.message.Won;
@@ -33,6 +34,19 @@ public class MessageValidatorTest {
 
 		//then no exception thrown
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testChannelReadWhenInputFireExceptionThrown() throws Exception {
+		//given
+		MessageValidator validator = new MessageValidator(new Size("1 2"), NO_MESSAGE);
+		ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
+		Object size = new Size("1 1");
+
+		//when
+		validator.channelRead(ctx, size);
+
+		//then exception thrown
+	}
 
 	@Test
 	public void testChannelReadWhenInputHitNoExceptionThrown() throws Exception {
@@ -45,6 +59,19 @@ public class MessageValidatorTest {
 		validator.channelRead(ctx, fire);
 
 		//then no exception thrown
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testChannelReadWhenInputHitExceptionThrown() throws Exception {
+		//given
+		MessageValidator validator = new MessageValidator(new Hit(), NO_MESSAGE);
+		ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
+		Object sunk = new Sunk();
+
+		//when
+		validator.channelRead(ctx, sunk);
+
+		//then exception thrown
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -72,6 +99,19 @@ public class MessageValidatorTest {
 
 		//then no exception thrown
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testChannelReadWhenInputSunkExceptionThrown() throws Exception {
+		//given
+		MessageValidator validator = new MessageValidator(NO_MESSAGE, new Miss());
+		ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
+		Object sunk = new Sunk();
+
+		//when
+		validator.channelRead(ctx, sunk);
+
+		//then exception thrown
+	}
 
 	@Test
 	public void testChannelReadWhenInputLostNoExceptionThrown() throws Exception {
@@ -85,11 +125,24 @@ public class MessageValidatorTest {
 
 		//then no exception thrown
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void testChannelReadWhenInputLostExceptionThrown() throws Exception {
+		//given
+		MessageValidator validator = new MessageValidator(new Lost(), new Lost());
+		ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
+		Object lost = new Lost();
+
+		//when
+		validator.channelRead(ctx, lost);
+
+		//then exception thrown
+	}
 
 	@Test
 	public void testChannelReadWhenInputWonNoExceptionThrown() throws Exception {
 		//given
-		MessageValidator validator = new MessageValidator(NO_MESSAGE, new Sunk());
+		MessageValidator validator = new MessageValidator(NO_MESSAGE, new Lost());
 		ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
 		Object won = new Won();
 
@@ -99,5 +152,17 @@ public class MessageValidatorTest {
 		//then no exception thrown
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void testChannelReadWhenInputWonExceptionThrown() throws Exception {
+		//given
+		MessageValidator validator = new MessageValidator(NO_MESSAGE, NO_MESSAGE);
+		ChannelHandlerContext ctx = mock(ChannelHandlerContext.class);
+		Object won = new Won();
+
+		//when
+		validator.channelRead(ctx, won);
+
+		//then exception thrown
+	}
 
 }
