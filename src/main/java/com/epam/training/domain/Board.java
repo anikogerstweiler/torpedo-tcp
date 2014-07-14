@@ -53,7 +53,7 @@ public class Board {
 			ship = shipType.createShip(positionX, positionY);
 
 			//mod
-			isPlacedOnBoard = ship.isInArea(height, width);
+			isPlacedOnBoard = ship.isInArea(width, height);
 
 			if (isPlacedOnBoard) {
 				isPlacedOnBoard = !isShipAtTheSamePosition(ship);

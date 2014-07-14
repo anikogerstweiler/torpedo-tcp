@@ -33,6 +33,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         log.info("Message got " + msg);
         if (msg instanceof Size) {
         	Size size = (Size)msg;
+        	System.out.println("size " + size);
         	createBoardAndEngine(size.getWidth(), size.getHeight());
         	board.printShips();
 
@@ -65,12 +66,10 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         }
 
         if (msg instanceof Won) {
-        	sendMessage(ctx, new Lost());
         	disconnect(ctx);
         }
         
         if (msg instanceof Lost) {
-        	sendMessage(ctx, new Won());
         	disconnect(ctx);
         }
     }
