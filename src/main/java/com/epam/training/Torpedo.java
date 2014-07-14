@@ -1,33 +1,32 @@
 package com.epam.training;
 
-import com.epam.training.domain.Board;
-import com.epam.training.domain.Engine;
-import com.epam.training.domain.ShipType;
-import com.epam.training.domain.ShipTypeReader;
 
 public class Torpedo {
 
 	private static final String INPUT_FILE = "ships.txt";
 
-	private static final int BOARD_HEIGHT = 30;
-
-	private static final int BOARD_WIDTH = 30;
-
 	public static void main(String[] args) {
-		Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
-		Engine engine = new Engine(board);
-
-		try(ShipTypeReader shipTypeReader = new ShipTypeReader(INPUT_FILE)) {
-			while (shipTypeReader.hasNext()) {
-				ShipType shipType = shipTypeReader.readShipType();
-				board.createShips(shipType);
-			}
-
-			//engine.printShips();
-			board.printShips();
-
-			engine.shoot();
-		} catch (Exception e) {
-		}
+//		Board board = new Board(BOARD_WIDTH, BOARD_HEIGHT);
+//
+//		try(ShipTypeReader shipTypeReader = new ShipTypeReader(INPUT_FILE)) {
+//			while (shipTypeReader.hasNext()) {
+//				ShipType shipType = shipTypeReader.readShipType();
+//				board.createShips(shipType);
+//			}
+//
+//			Engine engine = new Engine(board);
+//			System.out.println("sc " + engine.getShipCount());
+//
+//			//engine.printShips();
+//			board.printShips();
+//
+//			Random random = new Random();
+//			while (engine.getShipCount() > 0) {
+//				int positionX = random.nextInt(BOARD_WIDTH);
+//				int positionY = random.nextInt(BOARD_HEIGHT);
+//				engine.shootAt(positionX, positionY);
+//			}
+//		} catch (Exception e) {
+//		}
 	}
 }

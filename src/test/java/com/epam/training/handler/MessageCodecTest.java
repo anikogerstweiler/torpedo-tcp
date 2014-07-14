@@ -1,12 +1,13 @@
-package com.epam.training.server;
+package com.epam.training.handler;
 
-import static com.epam.training.server.MessageCodec.FIRE;
-import static com.epam.training.server.MessageCodec.HIT;
-import static com.epam.training.server.MessageCodec.LOST;
-import static com.epam.training.server.MessageCodec.MISS;
-import static com.epam.training.server.MessageCodec.SIZE;
-import static com.epam.training.server.MessageCodec.SUNK;
-import static com.epam.training.server.MessageCodec.WON;
+import static com.epam.training.handler.MessageCodec.CHARSET;
+import static com.epam.training.handler.MessageCodec.FIRE;
+import static com.epam.training.handler.MessageCodec.HIT;
+import static com.epam.training.handler.MessageCodec.LOST;
+import static com.epam.training.handler.MessageCodec.MISS;
+import static com.epam.training.handler.MessageCodec.SIZE;
+import static com.epam.training.handler.MessageCodec.SUNK;
+import static com.epam.training.handler.MessageCodec.WON;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import io.netty.buffer.ByteBuf;
@@ -39,7 +40,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsSizeReturnsSizeMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = (SIZE + " 1 2").getBytes("UTF8");
+		final byte[] testInputMessage = (SIZE + " 1 2").getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -57,7 +58,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsFireReturnsFireMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = (FIRE + " 1 2").getBytes("UTF8");
+		final byte[] testInputMessage = (FIRE + " 1 2").getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -75,7 +76,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsHitReturnsHitMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = HIT.getBytes("UTF8");
+		final byte[] testInputMessage = HIT.getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -93,7 +94,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsSunkReturnsSunkMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = SUNK.getBytes("UTF8");
+		final byte[] testInputMessage = SUNK.getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -111,7 +112,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsMissReturnsMissMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = MISS.getBytes("UTF8");
+		final byte[] testInputMessage = MISS.getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -129,7 +130,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsLostReturnsLostMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = LOST.getBytes("UTF8");
+		final byte[] testInputMessage = LOST.getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -147,7 +148,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsWonReturnsWonMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = WON.getBytes("UTF8");
+		final byte[] testInputMessage = WON.getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);
@@ -165,7 +166,7 @@ public class MessageCodecTest {
 	public void testDecodeWhenInputIsErrorReturnsErrorMessage() throws Exception {
 		//given
 		MessageCodec codec = new MessageCodec();
-		final byte[] testInputMessage = "ERROR error".getBytes("UTF8");
+		final byte[] testInputMessage = "ERROR error".getBytes(CHARSET);
 
 		//when
 		ChannelHandlerContext ctx = Mockito.mock(ChannelHandlerContext.class);

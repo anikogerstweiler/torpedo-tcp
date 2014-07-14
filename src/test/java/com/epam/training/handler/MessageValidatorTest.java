@@ -1,12 +1,13 @@
-package com.epam.training.server;
+package com.epam.training.handler;
 
-import static com.epam.training.server.MessageValidator.NO_MESSAGE;
+import static com.epam.training.handler.MessageValidator.NO_MESSAGE;
 import static org.mockito.Mockito.mock;
 import io.netty.channel.ChannelHandlerContext;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.epam.training.handler.MessageValidator;
 import com.epam.training.message.Fire;
 import com.epam.training.message.Hit;
 import com.epam.training.message.Lost;

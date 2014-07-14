@@ -12,6 +12,10 @@ import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
+import com.epam.training.handler.ErrorHandler;
+import com.epam.training.handler.MessageCodec;
+import com.epam.training.handler.MessageValidator;
+
 public class Server {
 
 	private static final int ONE_THREAD = 1;
@@ -21,7 +25,7 @@ public class Server {
         this.port = port;
     }
 
-    private void run() throws Exception {
+    public void run() throws Exception {
         EventLoopGroup group = new NioEventLoopGroup(ONE_THREAD);
 
         try {
@@ -32,11 +36,12 @@ public class Server {
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
-                    	ch.pipeline().addLast(new LoggingHandler(LogLevel.TRACE))
+                    	ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG))
                     			.addLast(new LineBasedFrameDecoder(1024))
                     			.addLast(new MessageCodec())
                     			.addLast(new MessageValidator())
-                    			.addLast(new MessageHandler());
+                    			.addLast(new ServerHandler())
+                    			.addLast(new ErrorHandler());
                     }
                 })
                 .option(ChannelOption.SO_BACKLOG, 128)
@@ -61,7 +66,7 @@ public class Server {
         if ( args . length > 0 ) {
             port = Integer.parseInt(args[0]);
         } else {
-            port = 5566;
+            port = 5000;
         }
 
         new Server(port).run();

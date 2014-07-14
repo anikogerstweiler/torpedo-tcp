@@ -3,6 +3,9 @@ package com.epam.training.domain;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -106,6 +109,33 @@ public class ShipTest {
 
 		//then
 		assertFalse(result);
+	}
+
+	@Test
+	public void testIsSunkWhenSunkReturnTrue() {
+		//given
+		ShipElement shipElement = mockShipElement(0, 0);
+		Ship ship = new Ship(asList(shipElement));
+
+		//when
+		ship.setInjured(0, 0);
+		when(shipElement.isInjured()).thenReturn(true);
+		boolean isSunk = ship.isSunk();
+
+		//then
+		assertTrue(isSunk);
+	}
+
+	@Test
+	public void testIsSunk() {
+		ShipElement element1 = new ShipElement(0, 0);
+		ShipElement element2 = new ShipElement(1, 0);
+		Ship ship = new Ship(Arrays.asList(element1, element2));
+
+		ship.setInjured(0, 0);
+		ship.setInjured(1, 0);
+
+		assertTrue(ship.isSunk());
 	}
 
 	private ShipElement mockShipElement(int x, int y) {

@@ -24,6 +24,10 @@ public class ShipType {
 		return new Ship(shiftedElements);
 	}
 
+	public int countShipElements() {
+		return shipElements.size();
+	}
+
 	public int getPiece() {
 		return piece;
 	}

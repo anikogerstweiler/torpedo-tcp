@@ -4,10 +4,6 @@ import java.util.List;
 
 public class Ship {
 
-	private int absolutePositionX;
-
-	private int absolutePositionY;
-
 	private List<ShipElement> shipElements;
 
 	public Ship(List<ShipElement> shipElements) {
@@ -23,15 +19,26 @@ public class Ship {
 		return isInArea;
 	}
 
-	public void setInjured(int positionX, int positionY) {
-		getElementByPosition(positionX, positionY).setInjured(true);
+	public boolean setInjured(int positionX, int positionY) {
+		ShipElement element = getElementByPosition(positionX, positionY);
+
+		return element == null || element.injure();
+	}
+
+	public boolean isSunk() {
+		boolean isSunk = true;
+		for (ShipElement element : shipElements) {
+			isSunk = isSunk && element.isInjured();
+		}
+		return isSunk;
 	}
 
 	private ShipElement getElementByPosition(int positionX, int positionY) {
 		ShipElement element = null;
 		for (ShipElement e : shipElements) {
-			if (isTwoElementAreEquals(positionX, positionY, e)) {
-				element = e;
+			if (e.getRelativePositionX() == positionX & e.getRelativePositionY() == positionY) {
+				//element = e;
+				return e;
 			}
 		}
 		return element;
@@ -51,14 +58,6 @@ public class Ship {
 
 	private boolean isTwoElementAreEquals(int positionX, int positionY, ShipElement element) {
 		return element.getRelativePositionX() == positionX && element.getRelativePositionY() == positionY;
-	}
-
-	public int getAbsolutePositionX() {
-		return absolutePositionX;
-	}
-
-	public int getAbsolutePositionY() {
-		return absolutePositionY;
 	}
 
 	public boolean isOverLap(Ship ship) {

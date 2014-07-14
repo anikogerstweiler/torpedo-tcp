@@ -18,8 +18,10 @@ public class ShipElement {
 		isInjured = false;
 	}
 
-	public void setInjured(boolean isInjured) {
-		this.isInjured = isInjured;
+	public boolean injure() {
+		boolean oldValue = this.isInjured;
+		this.isInjured = true;
+		return !oldValue;
 	}
 
 	public int getRelativePositionX() {
@@ -61,5 +63,9 @@ public class ShipElement {
 		if (relativePositionY != other.relativePositionY)
 			return false;
 		return true;
+	}
+
+	public boolean isInjured() {
+		return isInjured;
 	}
 }

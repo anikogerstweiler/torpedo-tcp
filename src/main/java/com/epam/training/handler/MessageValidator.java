@@ -1,4 +1,4 @@
-package com.epam.training.server;
+package com.epam.training.handler;
 
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -18,9 +18,9 @@ public class MessageValidator extends ChannelDuplexHandler {
 
 	public static final Message NO_MESSAGE = new NoMessage();
 
-	private Message lastMessageGet;
+	protected Message lastMessageGet;
 
-	private Message lastMessageSent;
+	protected Message lastMessageSent;
 
 	public MessageValidator() {
 		lastMessageGet = NO_MESSAGE;
@@ -42,19 +42,9 @@ public class MessageValidator extends ChannelDuplexHandler {
     //read from client
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object actualMessage) throws Exception {
-    	super.channelRead(ctx, actualMessage);
+    	verifySizeMessage(actualMessage);
 
-    	if (actualMessage instanceof Size) {
-    		signalError(actualMessage);
-    	}
-
-    	if (actualMessage instanceof Fire &&
-    			!(lastMessageSent instanceof Size
-    				|| lastMessageGet instanceof Hit
-    				|| lastMessageGet instanceof Sunk
-    				|| lastMessageGet instanceof Miss)) {
-    		signalError(actualMessage);
-    	}
+    	verifyFireMessage(actualMessage);
 
     	if (((actualMessage instanceof Sunk || actualMessage instanceof Hit || actualMessage instanceof Miss)
     			&& !(lastMessageSent instanceof Fire))) {
@@ -65,14 +55,32 @@ public class MessageValidator extends ChannelDuplexHandler {
     		signalError(actualMessage);
     	}
 
-    	if ((actualMessage instanceof Won && !(lastMessageSent instanceof Sunk))) {
+    	if ((actualMessage instanceof Won && !(lastMessageSent instanceof Lost))) {
     		signalError(actualMessage);
     	}
 
     	lastMessageGet = (Message) actualMessage;
+
+    	super.channelRead(ctx, actualMessage);
     }
 
-    private void signalError(Object actualMessage) {
+	protected void verifyFireMessage(Object actualMessage) {
+		if (actualMessage instanceof Fire &&
+    			!(lastMessageSent instanceof Size
+    				|| lastMessageGet instanceof Hit
+    				|| lastMessageGet instanceof Sunk
+    				|| lastMessageGet instanceof Miss)) {
+    		signalError(actualMessage);
+    	}
+	}
+
+	protected void verifySizeMessage(Object actualMessage) {
+		if (actualMessage instanceof Size) {
+    		signalError(actualMessage);
+    	}
+	}
+
+    protected void signalError(Object actualMessage) {
     	throw new IllegalArgumentException(actualMessage
     			+  " message received, when last message got: " + lastMessageGet
     			+ ", last message sent: " + lastMessageSent);

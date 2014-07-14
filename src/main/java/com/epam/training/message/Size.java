@@ -12,6 +12,19 @@ public class Size implements Message {
 		this.height = Integer.parseInt(splitted[1]);
 	}
 
+	public Size(int boardWidth, int boardHeight) {
+		this.width = boardWidth;
+		this.height = boardHeight;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
 	@Override
 	public String toString() {
 		return "SIZE " + width + " " + height;

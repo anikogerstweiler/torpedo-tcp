@@ -12,9 +12,21 @@ public class Fire implements Message {
 		this.coordinateY = Integer.parseInt(splitted[1]);
 	}
 
+	public Fire(int coordinateX, int coordinateY) {
+		this.coordinateX = coordinateX;
+		this.coordinateY = coordinateY;
+	}
+
 	@Override
 	public String toString() {
 		return "FIRE " + coordinateX + " " + coordinateY;
 	}
 
+	public int getCoordinateX() {
+		return coordinateX;
+	}
+
+	public int getCoordinateY() {
+		return coordinateY;
+	}
 }

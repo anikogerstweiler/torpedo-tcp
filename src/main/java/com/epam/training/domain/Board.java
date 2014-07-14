@@ -5,6 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import com.epam.training.message.Fire;
+import com.epam.training.message.FireAnswer;
+import com.epam.training.message.Hit;
+import com.epam.training.message.Miss;
+import com.epam.training.message.Sunk;
+
 public class Board {
 
 	private int width;
@@ -12,6 +18,8 @@ public class Board {
 	private int height;
 
 	private final List<Ship> ships;
+
+	private int shipElementCount;
 
 	private final Random random = new Random();
 
@@ -25,6 +33,7 @@ public class Board {
 		int piece = shipType.getPiece();
 		for (int i = 0; i < piece; i++) {
 			placeShip(shipType);
+			shipElementCount += shipType.countShipElements();
 		}
 	}
 
@@ -62,6 +71,31 @@ public class Board {
 		return false;
 	}
 
+	public FireAnswer process(Fire fire) {
+		Ship ship = getShipByPosition(fire.getCoordinateX(), fire.getCoordinateY());
+
+		if (ship == null) {
+			return new Miss();
+		}
+
+		boolean injured = ship.setInjured(fire.getCoordinateX(), fire.getCoordinateY());
+		if (injured) {
+			shipElementCount--;
+
+			if (ship.isSunk()) {
+				return new Sunk();
+			}
+
+			return new Hit();
+		}
+
+		return new Miss();
+	}
+
+	public boolean isLost() {
+		return shipElementCount == 0;
+	}
+
 	public void printShips() {
 		for (int i = 0; i < height ; i++) {
 			for (int j = 0; j < width; j++) {
@@ -72,12 +106,12 @@ public class Board {
 					s.printShip(j, i);
 				}
 			}
-			System.out.println("");
+			System.out.println();
 		}
-		System.out.println("");
+		System.out.println();
 	}
 
-	public Ship getShipByPosition(int positionX, int positionY) {
+	private Ship getShipByPosition(int positionX, int positionY) {
 		Ship ship = null;
 		for (Ship s : ships) {
 			if (s.isShipElementAtPosition(positionX, positionY)) {
@@ -86,6 +120,8 @@ public class Board {
 		}
 		return ship;
 	}
+
+
 
 	public List<Ship> getShips() {
 		return Collections.unmodifiableList(ships);
@@ -97,5 +133,13 @@ public class Board {
 
 	public int getHeight() {
 		return height;
+	}
+
+	public int getShipCount() {
+		return ships.size();
+	}
+
+	public void setShipCount(int shipCount) {
+		this.shipElementCount = shipCount;
 	}
 }
