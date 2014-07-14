@@ -49,11 +49,65 @@ public class ShipTypeReaderTest {
 		assertEquals(expected, result);
 		assertFalse(reader.hasNext());
 	}
+	
+	@Test
+	public void testReadShipTypeWhenInputContainsTwoElementShipReturnsTwoElementShipType() {
+		//given
+		reader = new ShipTypeReader("twoelementship.txt");
 
-	/*@Test
+		//when
+		List<ShipElement> elements = new ArrayList<>();
+		elements.add(new ShipElement(0, 0));
+		elements.add(new ShipElement(1, 0));
+		ShipType expected = new ShipType(elements, 1);
+		ShipType result = reader.readShipType();
+
+		//then
+		assertEquals(expected, result);
+		assertFalse(reader.hasNext());
+	}
+	
+	@Test
+	public void testReadShipTypeWhenInputContainsThreeElementShipReturnsThreeElementShipType() {
+		//given
+		reader = new ShipTypeReader("three_elementship.txt");
+
+		//when
+		List<ShipElement> elements = new ArrayList<>();
+		elements.add(new ShipElement(0, 0));
+		elements.add(new ShipElement(1, 0));
+		elements.add(new ShipElement(2, 0));
+		ShipType expected = new ShipType(elements, 1);
+		ShipType result = reader.readShipType();
+
+		//then
+		assertEquals(expected, result);
+		assertFalse(reader.hasNext());
+	}
+	
+	@Test
+	public void testReadShipTypeWhenInputContainsFourElementShipReturnsFourElementShipType() {
+		//given
+		reader = new ShipTypeReader("fourelementship.txt");
+
+		//when
+		List<ShipElement> elements = new ArrayList<>();
+		elements.add(new ShipElement(0, 0));
+		elements.add(new ShipElement(1, 0));
+		elements.add(new ShipElement(2, 0));
+		elements.add(new ShipElement(3, 0));
+		ShipType expected = new ShipType(elements, 1);
+		ShipType result = reader.readShipType();
+
+		//then
+		assertEquals(expected, result);
+		assertFalse(reader.hasNext());
+	}
+
+	@Test
 	public void testReadShipTypeWhenInputContainsTetrisShipReturnsTetrisShipType() {
 		//given
-		reader = new ShipTypeReader("tetrisship.txt");
+		reader = new ShipTypeReader("tetriswithother.txt");
 
 		//when
 		List<ShipElement> elements = new ArrayList<>();
@@ -67,6 +121,6 @@ public class ShipTypeReaderTest {
 		//then
 		assertEquals(expected, result);
 		assertTrue(reader.hasNext());
-	}*/
+	}
 
 }
