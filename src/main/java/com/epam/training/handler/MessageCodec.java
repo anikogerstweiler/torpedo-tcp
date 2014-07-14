@@ -29,7 +29,7 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
 
 	@Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
-        out.writeBytes(msg.toString().getBytes(CHARSET));
+        out.writeBytes(msg.toString().trim().getBytes(CHARSET));
         out.writeChar('\n');
     }
 

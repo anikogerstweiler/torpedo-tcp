@@ -1,5 +1,7 @@
 package com.epam.training.domain;
 
+import java.util.Random;
+
 import com.epam.training.message.Fire;
 import com.epam.training.message.FireAnswer;
 
@@ -12,6 +14,8 @@ public class Engine {
 	private int nextShootX;
 	private int nextShootY;
 	
+	private Random random = new Random();
+	
 	public Engine(int width, int height, int shipCount) {
 		this.width = width;
 		this.height = height;
@@ -19,6 +23,9 @@ public class Engine {
 	}
 
 	public Fire shoot() {
+		int x = random.nextInt(width);
+		int y = random.nextInt(height);
+		
 		Fire fire = new Fire(nextShootY, nextShootX);
 
 		if (nextShootX < width - 1) {
