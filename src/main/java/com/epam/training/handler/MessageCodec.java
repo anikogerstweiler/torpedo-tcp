@@ -26,11 +26,12 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
 	static final String FIRE = "FIRE";
 	static final String SIZE = "SIZE";
 	static final String ERROR = "ERROR";
+	private static final int NEW_LINE = 10;
 
 	@Override
     protected void encode(ChannelHandlerContext ctx, Message msg, ByteBuf out) throws Exception {
-        out.writeBytes(msg.toString().trim().getBytes(CHARSET));
-        out.writeChar('\n');
+        out.writeBytes(msg.toString().getBytes(CHARSET));
+        out.writeByte(NEW_LINE);
     }
 
     @Override
@@ -39,7 +40,7 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         byte[] msg = new byte[size];
 
         in.readBytes(msg);
-        String input = new String(msg,CHARSET).trim();
+        String input = new String(msg,CHARSET);
 
         int delimiter = input.indexOf(" ");
         String command = getCommand(input, delimiter);
@@ -47,10 +48,10 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         Message message = null;
         switch (command) {
 			case SIZE:
-				message = new Size((input.substring(delimiter + 1, input.length()).trim()));
+				message = new Size((input.substring(delimiter + 1, input.length())));
 				break;
 			case FIRE:
-				message = new Fire((input.substring(delimiter + 1, input.length())).trim());
+				message = new Fire((input.substring(delimiter + 1, input.length())));
 				break;
 			case HIT:
 				message = new Hit();
