@@ -1,6 +1,6 @@
 package com.epam.training.domain;
 
-public class Water {
+public class Water implements Placeholder {
 
 	@Override
 	public String toString() {

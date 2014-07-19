@@ -1,6 +1,6 @@
 package com.epam.training.domain;
 
-public class ShipElement {
+public class ShipElement implements Placeholder {
 
 	private static final String INTACT = "x";
 

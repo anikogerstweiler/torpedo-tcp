@@ -21,7 +21,7 @@ import com.epam.training.message.Won;
 public class MessageHandler extends ChannelInboundHandlerAdapter {
 
 	private static final String INPUT_FILE = "ships.txt";
-	
+
 	private static final Logger log = LoggerFactory.getLogger(MessageHandler.class);
 
 	protected Board board;
@@ -35,7 +35,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         	Size size = (Size)msg;
         	System.out.println("size " + size);
         	createBoardAndEngine(size.getWidth(), size.getHeight());
-        	board.printShips();
+        	board.print();
 
         	sendMessage(ctx, engine.shoot());
         	return;
@@ -44,7 +44,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         if (msg instanceof Fire) {
         	Fire message = (Fire)msg;
         	FireAnswer answer = board.process(message);
-        	board.printShips();
+        	board.print();
         	sendMessage(ctx, answer);
 
         	if (board.isLost()) {
@@ -57,7 +57,6 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
 
         if (msg instanceof FireAnswer) {
         	engine.process((FireAnswer) msg);
-        	//board.printShips();
 
         	if (engine.isWon()) {
         		sendMessage(ctx, new Won());
@@ -68,7 +67,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
         if (msg instanceof Won) {
         	disconnect(ctx);
         }
-        
+
         if (msg instanceof Lost) {
         	disconnect(ctx);
         }
@@ -82,7 +81,7 @@ public class MessageHandler extends ChannelInboundHandlerAdapter {
     protected void createBoardAndEngine(int width, int height) {
     	BoardFactory boardFactory = new BoardFactory(INPUT_FILE);
     	board = boardFactory.create(width, height);
-    	
+
     	engine = new Engine(width, height, board.getShipCount());
     }
 

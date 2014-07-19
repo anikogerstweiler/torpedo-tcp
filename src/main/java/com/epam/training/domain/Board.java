@@ -23,10 +23,23 @@ public class Board {
 
 	private final Random random = new Random();
 
+	private Placeholder[][] board;
+
 	public Board(final int width, final int height) {
 		this.width = width;
 		this.height = height;
 		ships = new ArrayList<>();
+		board = new Placeholder[width][height];
+		initBoard();
+	}
+
+	private void initBoard() {
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				board[j][i] = new Water();
+			}
+		}
+
 	}
 
 	public void createShips(ShipType shipType) {
@@ -36,7 +49,7 @@ public class Board {
 			//piece??
 			shipElementCount += shipType.countShipElements();
 		}
-	} 
+	}
 
 	private void placeShip(ShipType shipType) {
 		boolean isPlacedOnBoard = false;
@@ -59,8 +72,14 @@ public class Board {
 				isPlacedOnBoard = !isShipAtTheSamePosition(ship);
 			}
 		}
-
+		addToBoard(ship);
 		ships.add(ship);
+	}
+
+	private void addToBoard(Ship ship) {
+		for (ShipElement element : ship.getShipElements()) {
+			board[element.getRelativePositionX()][element.getRelativePositionY()] = element;
+		}
 	}
 
 	private boolean isShipAtTheSamePosition(Ship ship) {
@@ -74,13 +93,17 @@ public class Board {
 	}
 
 	public FireAnswer process(Fire fire) {
-		Ship ship = getShipByPosition(fire.getCoordinateX(), fire.getCoordinateY());
+		int coordinateX = fire.getCoordinateX();
+		int coordinateY = fire.getCoordinateY();
+
+		Ship ship = getShipByPosition(coordinateX, coordinateY);
 
 		if (ship == null) {
+			board[coordinateX][coordinateY] = new MissPlaceholder();
 			return new Miss();
 		}
 
-		boolean injured = ship.setInjured(fire.getCoordinateX(), fire.getCoordinateY());
+		boolean injured = ship.setInjured(coordinateX, coordinateY);
 		if (injured) {
 			shipElementCount--;
 
@@ -97,16 +120,11 @@ public class Board {
 	public boolean isLost() {
 		return shipElementCount == 0;
 	}
-	
-	public void printShips() {
+
+	public void print() {
 		for (int i = 0; i < height ; i++) {
 			for (int j = 0; j < width; j++) {
-				Ship s = getShipByPosition(j, i);
-				if (s == null) {
-					System.out.print(new Water().toString());
-				} else {
-					s.printShip(j, i);
-				}
+				System.out.print(board[j][i]);
 			}
 			System.out.println();
 		}

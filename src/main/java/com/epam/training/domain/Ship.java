@@ -93,4 +93,8 @@ public class Ship {
 			index++;
 		}
 	}
+
+	public List<ShipElement> getShipElements() {
+		return shipElements;
+	}
 }
