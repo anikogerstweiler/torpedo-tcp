@@ -1,0 +1,11 @@
+Elemer
+String host = "ephubudw0543";
+
+Peti
+String host = "ephubudw0080";
+
+Zsolti
+String host = "ephubudw0544";
+
+Fanni
+String host = "ephubudw0546";

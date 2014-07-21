@@ -31,12 +31,7 @@ public class Main {
 	}
 
 	private static void startClient(String[] args) throws Exception {
-		//Elemer
-		//String host = "ephubudw0543";
-		//Peti
-		//String host = "ephubudw0080";
-		//Zsolti
-		//String host = "ephubudw0544";
+		
 		String host = DEFAULT_HOST;
 		if (args.length > 1) {
 			host = args[1];
