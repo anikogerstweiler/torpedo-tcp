@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 public class ShipTypeReader implements AutoCloseable {
 
 	private static final Pattern LINE_PATTERN = Pattern.compile("[\\.x]{4}");
+	
 	private Scanner scanner;
 
 	public ShipTypeReader(String fileName) {
@@ -27,16 +28,20 @@ public class ShipTypeReader implements AutoCloseable {
 			line = scanner.next(LINE_PATTERN);
 			for (int column = 0; column < 4; column++) {
 				inputChar = line.charAt(column);
-				if (inputChar == 'x') {
-					ShipElement shipElement = new ShipElement(column, row);
-					shipElements.add(shipElement);
-				}
+				processInput(inputChar, shipElements, row, column);
 			}
 		}
 
 		int shipCount = scanner.nextInt();
 
 		return new ShipType(shipElements, shipCount);
+	}
+
+	private void processInput(char inputChar, List<ShipElement> shipElements, int row, int column) {
+		if (inputChar == 'x') {
+			ShipElement shipElement = new ShipElement(column, row);
+			shipElements.add(shipElement);
+		}
 	}
 
 	@Override

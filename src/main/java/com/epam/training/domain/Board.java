@@ -1,7 +1,6 @@
 package com.epam.training.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -46,7 +45,6 @@ public class Board {
 		int piece = shipType.getPiece();
 		for (int i = 0; i < piece; i++) {
 			placeShip(shipType);
-			//piece??
 			shipElementCount += shipType.countShipElements();
 		}
 	}
@@ -57,15 +55,12 @@ public class Board {
 		Ship ship = null;
 		int safetyCounter = 0;
 		while(!isPlacedOnBoard) {
-			if (safetyCounter++ == 10) {
-				throw new IllegalStateException("Ship placement failed!");
-			}
+			safetyCounter = safetyCheckToPlaceShip(safetyCounter);
 
 			int positionX = random.nextInt(width);
 			int positionY = random.nextInt(height);
 			ship = shipType.createShip(positionX, positionY);
 
-			//mod
 			isPlacedOnBoard = ship.isInArea(width, height);
 
 			if (isPlacedOnBoard) {
@@ -74,6 +69,13 @@ public class Board {
 		}
 		addToBoard(ship);
 		ships.add(ship);
+	}
+
+	private int safetyCheckToPlaceShip(int safetyCounter) {
+		if (safetyCounter++ == 10) {
+			throw new IllegalStateException("Ship placement failed!");
+		}
+		return safetyCounter;
 	}
 
 	private void addToBoard(Ship ship) {
@@ -139,20 +141,6 @@ public class Board {
 			}
 		}
 		return ship;
-	}
-
-
-
-	public List<Ship> getShips() {
-		return Collections.unmodifiableList(ships);
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
 	}
 
 	public int getShipCount() {
