@@ -7,46 +7,48 @@ import java.util.regex.Pattern;
 
 public class ShipTypeReader implements AutoCloseable {
 
-	private static final Pattern LINE_PATTERN = Pattern.compile("[\\.x]{4}");
-	
-	private Scanner scanner;
+    private static final int MATRIX_DIMENSION = 4;
 
-	public ShipTypeReader(String fileName) {
-		scanner = new Scanner(ClassLoader.getSystemResourceAsStream(fileName));
-	}
+    private static final Pattern LINE_PATTERN = Pattern.compile("[\\.x]{4}");
 
-	public boolean hasNext() {
-		return scanner.hasNext(LINE_PATTERN);
-	}
+    private Scanner scanner;
 
-	public ShipType readShipType() {
-		char inputChar;
-		String line = null;
-		List<ShipElement> shipElements = new ArrayList<>();
+    public ShipTypeReader(String fileName) {
+        scanner = new Scanner(ClassLoader.getSystemResourceAsStream(fileName));
+    }
 
-		for (int row = 0; row < 4; row++) {
-			line = scanner.next(LINE_PATTERN);
-			for (int column = 0; column < 4; column++) {
-				inputChar = line.charAt(column);
-				processInput(inputChar, shipElements, row, column);
-			}
-		}
+    public boolean hasNext() {
+        return scanner.hasNext(LINE_PATTERN);
+    }
 
-		int shipCount = scanner.nextInt();
+    public ShipType readShipType() {
+        char inputChar;
+        String line = null;
+        List<ShipElement> shipElements = new ArrayList<>();
 
-		return new ShipType(shipElements, shipCount);
-	}
+        for (int row = 0; row < MATRIX_DIMENSION; row++) {
+            line = scanner.next(LINE_PATTERN);
+            for (int column = 0; column < MATRIX_DIMENSION; column++) {
+                inputChar = line.charAt(column);
+                processInput(inputChar, shipElements, row, column);
+            }
+        }
 
-	private void processInput(char inputChar, List<ShipElement> shipElements, int row, int column) {
-		if (inputChar == 'x') {
-			ShipElement shipElement = new ShipElement(column, row);
-			shipElements.add(shipElement);
-		}
-	}
+        int shipCount = scanner.nextInt();
 
-	@Override
-	public void close() throws Exception {
-		scanner.close();
-	}
+        return new ShipType(shipElements, shipCount);
+    }
+
+    private void processInput(char inputChar, List<ShipElement> shipElements, int row, int column) {
+        if (inputChar == 'x') {
+            ShipElement shipElement = new ShipElement(column, row);
+            shipElements.add(shipElement);
+        }
+    }
+
+    @Override
+    public void close() throws Exception {
+        scanner.close();
+    }
 
 }

@@ -1,49 +1,46 @@
 package com.epam.training.domain;
 
-import java.util.Random;
-
 import com.epam.training.message.Fire;
 import com.epam.training.message.FireAnswer;
 
 public class Engine {
 
-	private final int width;
-	private final int height;
-	private int shipECount;
+    private final int width;
+    private final int height;
+    private int shipECount;
 
-	private int nextShootX;
-	private int nextShootY;
-	
-	private Random random = new Random();
-	
-	public Engine(int width, int height, int shipCount) {
-		this.width = width;
-		this.height = height;
-		this.shipECount = shipCount;
-	}
+    private int nextShootX;
+    private int nextShootY;
 
-	public Fire shoot() {
-		int x = random.nextInt(width);
-		int y = random.nextInt(height);
-		
-		Fire fire = new Fire(nextShootY, nextShootX);
+    public Engine(int width, int height, int shipCount) {
+        this.width = width;
+        this.height = height;
+        shipECount = shipCount;
+    }
 
-		if (nextShootX < width - 1) {
-			nextShootX++;
-		} else {
-			nextShootX = 0;
-			nextShootY++;
-		}
+    public Fire shoot() {
+        Fire fire = new Fire(nextShootY, nextShootX);
 
-		return fire;
-	}
+        if (nextShootX < width - 1) {
+            nextShootX++;
+        } else {
+            nextShootX = 0;
+            nextShootY++;
+        }
 
-	public void process(FireAnswer msg) {
-		shipECount -= msg.demage();
-	}
+        return fire;
+    }
 
-	public boolean isWon() {
-		return shipECount == 0;
-	}
+    public void process(FireAnswer msg) {
+        shipECount -= msg.demage();
+    }
+
+    public boolean isWon() {
+        return shipECount == 0;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
 }

@@ -18,17 +18,19 @@ import com.epam.training.handler.MessageHandler;
 
 public class Client {
 
-	private static final int ONE_THREAD = 1;
+    private static final int MAX_LENGTH = 1024;
 
-	private String host;
-	private int port;
+    private static final int ONE_THREAD = 1;
 
-	public Client(String host, int port) {
-		this.host = host;
-		this.port = port;
-	}
+    private String host;
+    private int port;
 
-	public void run() throws Exception {
+    public Client(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
+
+    public void run() throws Exception {
         EventLoopGroup workerGroup = new NioEventLoopGroup(ONE_THREAD);
 
         try {
@@ -40,12 +42,8 @@ public class Client {
             b.handler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
-                	ch.pipeline().addLast(new LoggingHandler(LogLevel.TRACE))
-        			.addLast(new LineBasedFrameDecoder(1024))
-        			.addLast(new MessageCodec())
-        			.addLast(new ClientValidator())
-        			.addLast(new MessageHandler())
-        			.addLast(new ErrorHandler());
+                    ch.pipeline().addLast(new LoggingHandler(LogLevel.TRACE)).addLast(new LineBasedFrameDecoder(MAX_LENGTH)).addLast(new MessageCodec())
+                    .addLast(new ClientValidator()).addLast(new MessageHandler()).addLast(new ErrorHandler());
                 }
             });
 
@@ -57,5 +55,5 @@ public class Client {
         } finally {
             workerGroup.shutdownGracefully();
         }
-	}
+    }
 }

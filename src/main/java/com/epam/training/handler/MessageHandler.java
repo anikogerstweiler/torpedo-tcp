@@ -20,73 +20,70 @@ import com.epam.training.message.Won;
 
 public class MessageHandler extends ChannelInboundHandlerAdapter {
 
-	private static final String INPUT_FILE = "ships.txt";
+    private static final String INPUT_FILE = "ships.txt";
 
-	private static final Logger log = LoggerFactory.getLogger(MessageHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MessageHandler.class);
 
-	protected Board board;
+    protected Board board;
 
-	private Engine engine;
+    private Engine engine;
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        log.info("Message got " + msg);
+        LOG.info("Message got " + msg);
         if (msg instanceof Size) {
-        	Size size = (Size)msg;
-        	System.out.println("size " + size);
-        	createBoardAndEngine(size.getWidth(), size.getHeight());
-        	board.print();
-
-        	sendMessage(ctx, engine.shoot());
-        	return;
+            Size size = (Size) msg;
+            LOG.info("size " + size);
+            createBoardAndEngine(size.getWidth(), size.getHeight());
+            board.print();
+            sendMessage(ctx, engine.shoot());
+            return;
         }
 
         if (msg instanceof Fire) {
-        	Fire message = (Fire)msg;
-        	FireAnswer answer = board.process(message);
-        	board.print();
-        	sendMessage(ctx, answer);
+            Fire message = (Fire) msg;
+            FireAnswer answer = board.process(message);
+            board.print();
+            sendMessage(ctx, answer);
 
-        	if (board.isLost()) {
-        		sendMessage(ctx, new Lost());
-        	} else {
-        		sendMessage(ctx, engine.shoot());
-        	}
-        	return;
+            if (board.isLost()) {
+                sendMessage(ctx, new Lost());
+            } else {
+                sendMessage(ctx, engine.shoot());
+            }
+            return;
         }
 
         if (msg instanceof FireAnswer) {
-        	engine.process((FireAnswer) msg);
+            engine.process((FireAnswer) msg);
 
-        	if (engine.isWon()) {
-        		sendMessage(ctx, new Won());
-        	}
-        	return;
+            if (engine.isWon()) {
+                sendMessage(ctx, new Won());
+            }
+            return;
         }
 
         if (msg instanceof Won) {
-        	disconnect(ctx);
+            disconnect(ctx);
         }
-
         if (msg instanceof Lost) {
-        	disconnect(ctx);
+            disconnect(ctx);
         }
     }
 
-	private void disconnect(ChannelHandlerContext ctx)
-			throws InterruptedException, ExecutionException {
-		ctx.disconnect().get();
-	}
+    private void disconnect(ChannelHandlerContext ctx) throws InterruptedException, ExecutionException {
+        ctx.disconnect().get();
+    }
 
     protected void createBoardAndEngine(int width, int height) {
-    	BoardFactory boardFactory = new BoardFactory(INPUT_FILE);
-    	board = boardFactory.create(width, height);
+        BoardFactory boardFactory = new BoardFactory(INPUT_FILE);
+        board = boardFactory.create(width, height);
 
-    	engine = new Engine(width, height, board.getShipCount());
+        engine = new Engine(width, height, board.getShipCount());
     }
 
     private void sendMessage(ChannelHandlerContext ctx, Message message) {
-    	log.info("Message sent " + message);
+        LOG.info("Message sent " + message);
         ctx.write(message);
         ctx.flush();
     }

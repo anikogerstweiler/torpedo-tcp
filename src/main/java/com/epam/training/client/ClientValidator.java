@@ -9,22 +9,18 @@ import com.epam.training.message.Sunk;
 
 public class ClientValidator extends MessageValidator {
 
-	@Override
-	protected void verifySizeMessage(Object actualMessage) {
-		if (actualMessage instanceof Size &&
-				(lastMessageGet != NO_MESSAGE || lastMessageSent != NO_MESSAGE)) {
-			signalError(actualMessage);
-		}
-	}
+    @Override
+    protected void verifySizeMessage(Object actualMessage) {
+        if (actualMessage instanceof Size && (lastMessageGet != NO_MESSAGE || lastMessageSent != NO_MESSAGE)) {
+            signalError(actualMessage);
+        }
+    }
 
-	@Override
-	protected void verifyFireMessage(Object actualMessage) {
-		if (actualMessage instanceof Fire &&
-    			!(lastMessageGet instanceof Hit
-    				|| lastMessageGet instanceof Sunk
-    				|| lastMessageGet instanceof Miss)) {
-    		signalError(actualMessage);
-    	}
-	}
+    @Override
+    protected void verifyFireMessage(Object actualMessage) {
+        if (actualMessage instanceof Fire && !(lastMessageGet instanceof Hit || lastMessageGet instanceof Sunk || lastMessageGet instanceof Miss)) {
+            signalError(actualMessage);
+        }
+    }
 
 }

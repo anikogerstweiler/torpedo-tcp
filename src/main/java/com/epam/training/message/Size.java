@@ -2,31 +2,31 @@ package com.epam.training.message;
 
 public class Size implements Message {
 
-	private int width;
+    private int width;
 
-	private int height;
+    private int height;
 
-	public Size(String input) {
-		String[] splitted = input.split(" ");
-		this.width = Integer.parseInt(splitted[0].trim());
-		this.height = Integer.parseInt(splitted[1].trim());
-	}
+    public Size(String input) {
+        String[] splitted = input.split(" ");
+        width = Integer.parseInt(splitted[0].trim());
+        height = Integer.parseInt(splitted[1].trim());
+    }
 
-	public Size(int boardWidth, int boardHeight) {
-		this.width = boardWidth;
-		this.height = boardHeight;
-	}
+    public Size(int boardWidth, int boardHeight) {
+        width = boardWidth;
+        height = boardHeight;
+    }
 
-	public int getHeight() {
-		return height;
-	}
+    public int getHeight() {
+        return height;
+    }
 
-	public int getWidth() {
-		return width;
-	}
+    public int getWidth() {
+        return width;
+    }
 
-	@Override
-	public String toString() {
-		return "SIZE " + width + " " + height;
-	}
+    @Override
+    public String toString() {
+        return "SIZE " + width + " " + height;
+    }
 }

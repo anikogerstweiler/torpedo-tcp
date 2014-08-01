@@ -9,3 +9,18 @@ String host = "ephubudw0544";
 
 Fanni
 String host = "ephubudw0546";
+
+Laci
+String host = "ephubudw0347";
+
+Tomi
+String host = "ephubudw0551";
+
+Balázs
+String host = "ephubudw0032";
+
+Jani
+String host = "ephubudw0070";
+
+Karsa Peti
+String host = "ephubudw0088";
