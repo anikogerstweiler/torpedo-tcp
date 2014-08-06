@@ -10,6 +10,7 @@ import com.epam.training.message.Fire;
 import com.epam.training.message.Hit;
 import com.epam.training.message.Lost;
 import com.epam.training.message.Message;
+import com.epam.training.message.MessageEnum;
 import com.epam.training.message.Miss;
 import com.epam.training.message.Size;
 import com.epam.training.message.Sunk;
@@ -44,35 +45,45 @@ public class MessageCodec extends ByteToMessageCodec<Message> {
         int delimiter = input.indexOf(' ');
         String command = getCommand(input, delimiter);
 
+//        Message message = null;
         Message message = null;
-        switch (command) {
-        case SIZE:
-            message = new Size(input.substring(delimiter + 1, input.length()));
-            break;
-        case FIRE:
-            message = new Fire(input.substring(delimiter + 1, input.length()));
-            break;
-        case HIT:
-            message = new Hit();
-            break;
-        case SUNK:
-            message = new Sunk();
-            break;
-        case MISS:
-            message = new Miss();
-            break;
-        case LOST:
-            message = new Lost();
-            break;
-        case WON:
-            message = new Won();
-            break;
-        case ERROR:
-            ctx.disconnect().get();
-            break;
-        default:
+        message = MessageEnum.valueOf(command).createMessage(input);
+//        switch (command) {
+//        case SIZE:
+//            message = new Size(input.substring(delimiter + 1, input.length()));
+//            break;
+//        case FIRE:
+//            message = new Fire(input.substring(delimiter + 1, input.length()));
+//            break;
+//        case HIT:
+//            message = new Hit();
+//            break;
+//        case SUNK:
+//            message = new Sunk();
+//            break;
+//        case MISS:
+//            message = new Miss();
+//            break;
+//        case LOST:
+//            message = new Lost();
+//            break;
+//        case WON:
+//            message = new Won();
+//            break;
+//        case ERROR:
+//            ctx.disconnect().get();
+//            break;
+//        default:
+//            throw new IllegalArgumentException("Unrecognized command: " + input);
+//        }
+        if (message == null) {
             throw new IllegalArgumentException("Unrecognized command: " + input);
         }
+
+        if (message instanceof Error) {
+            ctx.disconnect().get();
+        }
+
         out.add(message);
     }
 
